@@ -1,10 +1,14 @@
 function fetchWords() {
+   
+   
     fetch('/get-words')
     .then(response => response.json())
     .then(data => {
         if (data.success) {
+           
             const select = document.getElementById('word');
             select.innerHTML = '<option value="">Sélectionnez un mot</option>'; // Reset dropdown
+            
             data.data.forEach(item => {
                 const option = new Option(item.mot, item.ID); // Create a new Option object
                 select.add(option); // Add it to the list
@@ -20,9 +24,15 @@ document.addEventListener('DOMContentLoaded', fetchWords);
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const messageDiv = document.getElementById('message');
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault(); // Prevent the default form submission
+
+        // Lock the button and show a spinner
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<div>En cours... <div class="spinner"></div></div>';
 
         const formData = {
             firstName: document.getElementById('firstname').value,
@@ -42,14 +52,26 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Word reserved successfully!');
+                messageDiv.textContent = 'Mot réservé avec succès!';
+                messageDiv.className = 'text-green-500'; // Green text color for success
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             } else {
-                alert('Failed to reserve word. Please try again!');
+                messageDiv.textContent = 'Échec de la réservation. Veuillez réessayer!';
+                messageDiv.className = 'text-red-500'; // Red text color for failure
             }
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Réserver'; // Restore button text
+          
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Error submitting form.');
+            messageDiv.textContent = 'Erreur lors de l\'envoi du formulaire.';
+            messageDiv.className = 'text-red-500'; // Red text color for error
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Réserver'; // Restore button text
         });
     });
 });
+
