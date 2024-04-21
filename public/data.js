@@ -20,7 +20,9 @@ function fetchWords() {
     .catch(error => console.error('Error fetching words:', error));
 }
 
-document.addEventListener('DOMContentLoaded', fetchWords);
+document.addEventListener('DOMContentLoaded',  setTimeout(() => {
+   fetchWords()
+}, 2000));
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form');
