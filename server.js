@@ -54,7 +54,7 @@ app.post('/submit-word-selection', async (req, res) => {
             "NOM PRENOM": firstName +" "+ lastName,
             "EMAIL": email,
             "ID": id,
-            "MOT"
+            "MOT": ""
         }]
     };
 
