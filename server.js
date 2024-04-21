@@ -44,7 +44,7 @@ app.get('/get-words', cors(), async (req, res) => {
         res.status(500).json({ success: false, message: 'Erreur lors de la récupération des mots.' });
     }
 });
-// Route pour soumettre les réponses du quiz
+// Route pour soumettre les réponses du 
 app.post('/submit-word-selection', async (req, res) => {
     const { firstName, lastName, email, id } = req.body;
 
